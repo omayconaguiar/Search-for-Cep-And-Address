@@ -35,15 +35,15 @@ copiar e colar código da pasta migrations/v1605730616-address.sql para croar ta
 
     * POST - busca endereço atráves do cep:
 
-        http://localhost:3000/searchAddress/byCep:
+        http://localhost:3000/searchAddress/byCep
      
      * GET - pega todos endereços que foram cadastrados no banco de dados:
 
-        http://localhost:3000/searchAddress:
+        http://localhost:3000/searchAddress
 
     * PATCH - atualiza endereços pelo id:
 
-        http://localhost:3000/searchAddress/{id}:
+        http://localhost:3000/searchAddress/{id}
 
 
     
