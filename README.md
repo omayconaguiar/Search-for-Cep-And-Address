@@ -1,4 +1,4 @@
-# IBM WATSON
+# BUSCA POR ENDEREÇOS ATRAVÉS DO CEP E NOME DA RUA
 
 ## Getting Started
 
@@ -9,6 +9,11 @@
 ### Executing program
 
     * yarn dev
+
+### Description
+
+    * Api que busca endereços através do cep e atráves de informações como: rua, cidade e UF.
+
 
 ## Buildando tabelas
 
@@ -24,11 +29,20 @@ copiar e colar código da pasta migrations/v1605730616-address.sql para croar ta
 
 ## Endpoints
 
-    * POST - Endereço com html:
-    http://localhost:3000
+    * POST - busca endereço com nome da rua, cidade e UF:
+    http://localhost:3000/searchAddress
 
-    * POST - Cria comentário no banco de dados:
+    * POST - busca endereço atráves do cep:
+
+    http://localhost:3000/searchAddress/byCep:
+     
+     * GET - pega todos endereços que foram cadastrados no banco de dados:
 
     http://localhost:3000/searchAddress:
+
+    * PATCH - atualiza endereços pelo id:
+
+    http://localhost:3000/searchAddress/{id}:
+
 
     

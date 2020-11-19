@@ -9,5 +9,7 @@ export interface ISearchAddress {
     state: string
     uf: string
     address: string
+    street: string
+    neighborhood: string
 }
 

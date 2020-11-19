@@ -49,11 +49,29 @@ const updateByIdSchema =
     "title": "updateByIdSchema",
     "type": "object",
     "properties": {
-        "text": {
+        "id": {
             "type": "string"
-        }
+        },
+        "zipAddress": {
+            "type": "string"
+        },
+        "state": {
+            "type": "string"
+        },
+        "city": {
+            "type": "string"
+        },
+        "neighborhood": {
+            "type": "string"
+        },
+        "street": {
+            "type": "string"
+        },
+        "uf": {
+            "type": "string"
+        },
     },
-    "required": ["text"]
+    "required": ["id", "uf", "zipAddress"]
 }
 
 export default [

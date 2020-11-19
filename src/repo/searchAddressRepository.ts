@@ -26,7 +26,7 @@ export class searchAddressRepository {
         )
       ).data;
 
-      const searchAddress: any = await sequelize.query(`
+      await sequelize.query(`
            INSERT INTO "address" (zip_code,street,city, neighborhood, uf)
             VALUES('${output[0].cep}', '${output[0].logradouro}', '${output[0].localidade}', '${output[0].bairro}', '${output[0].uf}')          
           `, {
@@ -35,27 +35,29 @@ export class searchAddressRepository {
 
       return Promise.resolve(output)
     } catch (e) {
-      return Promise.reject({ message: "Teste novamente sem acentos e ç" } + e);
+      if (!output || !output.length) {
+        return Promise.reject({ message: "Endereço inválido ou indisponível. Confira o endereço, e tente novamente sem acentos e Ç", status: 400 })
+      }
     }
   }
 
   async searchAddressByCep(input: ISearchAddress): Promise<any> {
     try {
-      return await sequelize.transaction(async function (t) {
-        const getByCep = await cep
+      var getByCep = await cep
 
-        var address: any = await getByCep(input.zipAddress)
+      var address: any = await getByCep(input.zipAddress)
 
-        await sequelize.query(`
+      await sequelize.query(`
            INSERT INTO "address" (zip_code,state,city, neighborhood, street)
            VALUES('${address.cep}', '${address.state}', '${address.city}', '${address.neighborhood}', '${address.street}')          
            `, {
-          type: QueryTypes.INSERT
-        });
-        return Promise.resolve(address)
-      })
+        type: QueryTypes.INSERT
+      });
+      return Promise.resolve(address)
     } catch (e) {
-      return Promise.reject(e);
+      if (!address) {
+        return Promise.reject({ message: "Cep indisponível ou formato errado. Utilize apenas 8 dígitos com ou sem traços entre o cep", status: 400 })
+      }
     }
   }
 
@@ -80,21 +82,33 @@ export class searchAddressRepository {
   async updateById(input: ISearchAddress): Promise<any> {
     try {
       return await sequelize.transaction(async function (t) {
+        const zip_code_var = input.zipAddress ? `zip_code = :zipAddress,` : ``;
+        const state_var = input.state ? `state = :state,` : ``;
+        const city_var = input.city ? `city = :city,` : ``;
+        const neighborhood_var = input.neighborhood ? `neighborhood = :neighborhood,` : ``;
+        const street_var = input.street ? `street = :street,` : ``;
+        const uf_var = input.uf ? `uf = :uf` : ``;
+
         await sequelize.query(`
           UPDATE 
-            address
-          SET         
-            text = :text,
-            zip_code = :zipAddress,
-            state = :state,
-            city = :city,
-            neighborhood = :neighborhood,
-            street = :street,
-            uf = :uf
+            "address"
+          SET                     
+            ${zip_code_var}
+            ${state_var}
+            ${city_var}
+            ${neighborhood_var}
+            ${street_var}
+            ${uf_var}
           WHERE id = :id
           `, {
           replacements: {
-            id: input.id
+            id: input.id,
+            zipAddress: input.zipAddress,
+            state: input.state,
+            city: input.city,
+            neighborhood: input.neighborhood,
+            street: input.street,
+            uf: input.uf
           },
           type: QueryTypes.UPDATE
         });
