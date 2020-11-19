@@ -21,7 +21,7 @@ Criar banco de dados no postgres com nomes iguais do arquivo .env.
 
 rodar: yarn migrations:run v1605730616 OU
 
-copiar e colar código da pasta migrations/v1605730616-address.sql para croar tabela.
+copiar e colar código da pasta migrations/v1605730616-address.sql para criar tabela.
 
 ## Author
 
